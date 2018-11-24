@@ -13,6 +13,7 @@ import {Provider} from 'react-redux';
 
 import configureStore from "./redux/store/configureStore";
 import './style/style.scss';
+import {RootPage} from "./container/RootPage";
 
 const ROOT = document.getElementById("root");
 
@@ -23,6 +24,7 @@ const store = configureStore;
 ReactDom.render(
   <Provider store={store}>
     <Router>
+      <RootPage/>
     </Router>
   </Provider>,
   ROOT

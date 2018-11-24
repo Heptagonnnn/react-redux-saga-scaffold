@@ -4,34 +4,36 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 module.exports = {
+  mode: "development",
   entry: ['@babel/polyfill', __dirname + '/src/index.js'],
   output: {
     filename: 'bundle.js',
-    path: __dirname + '/dist'
+    path: __dirname + '/build'
   },
   devtool: 'eval-source-map',
   resolve: {
     extensions: [
-      '.js', '.json', '.webpack.js', '.js'
+      '.js', '.json', '.webpack.js', ".scss", ".css"
     ]
   },
   module: {
     rules: [
       {
         test: /\.js$/, use: [{
-          loader: 'babel-loader',
+          loader: 'babel-loader?cacheDirectory=true',
           options: {
             "presets": ["@babel/preset-env", "@babel/preset-react"],
             "plugins": [
               ["@babel/plugin-proposal-decorators", {"legacy": true}],
               ["@babel/plugin-proposal-class-properties", {"legacy": true}],
-              ["import", {
-                libraryName: "antd-mobile",
-                style: "css"
-              }]
+              ["@babel/plugin-syntax-dynamic-import"],
+              [
+                "@babel/plugin-transform-runtime"
+              ]
             ]
           }
-        }]
+        }],
+        exclude: /node_modules/
       },
       {test: /\.css$/, use: ['style-loader', 'css-loader?module', 'postcss-loader',]},
       {test: /\.(sass|scss)$/, use: ['style-loader', 'css-loader?module', 'sass-loader']},
@@ -43,11 +45,13 @@ module.exports = {
     historyApiFallback: true,
     inline: true,
     hot: true,
+    port: 8085
     // proxy: {
     //   "**": "http://localhost:8081"
     // }
   },
   plugins: [
+    require('autoprefixer'),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname + '/src', 'index.html')
     }),
