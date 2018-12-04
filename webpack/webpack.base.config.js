@@ -1,15 +1,31 @@
 const path = require("path");
-const chalk = require("chalk");
-const ProgressBarPlugin = require("progress-bar-webpack-plugin");
+const webpack = require("webpack");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {resolve} = require("./util");
+const argv = require("yargs").argv;
+
+const __ENV__ = {
+  prod: false,
+  test: false,
+  dev: false
+};
+
+
+if (argv.prod) {
+  __ENV__.prod = true;
+} else if (argv.test) {
+  __ENV__.test = true;
+} else {
+  __ENV__.dev = true;
+}
+
+console.log("environment config", __ENV__);
 
 
 module.exports = {
   context: path.resolve(__dirname, "../"),
   entry: {
     index: "./src/index.js",
-    vendor: ["react", "react-dom", "react-router"]
   },
   output: {
     path: resolve("dist"),
@@ -18,7 +34,7 @@ module.exports = {
   },
   resolve: {
     extensions: [
-      '.js', '.json', '.webpack.js', ".scss", ".css"
+      '.js', ".scss", ".css"
     ]
   },
   module: {
@@ -26,8 +42,8 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['css-hot-loader', MiniCssExtractPlugin.loader, 'css-loader?module', 'postcss-loader'],
-        include: [resolve('src')], //限制范围，提高打包速度
-        exclude: /node_modules/
+        // include: [resolve('src')], //限制范围，提高打包速度
+        // exclude: /node_modules/
       },
       {
         test: /\.scss$/,
@@ -51,26 +67,27 @@ module.exports = {
         include: [resolve('src')],
         exclude: /node_modules/
       },
-    ]
-  },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          chunks: "initial",
-          name: "vendor",
-          minChunks: 2
-        }
+      {
+        test: /\.(png|jpg)$/,
+        use: [{
+          loader: "url-loader",
+          options: {
+            limit: 10000,
+            name: "img/[name].[hash:7].[ext]"
+          }
+        }],
+        include: [resolve('src')],
+        exclude: /node_modules/
       }
-    }
+    ]
   },
   plugins: [
     new MiniCssExtractPlugin({
       filename: "[name].css",
-      chunkFilename: "[id].css"
+      chunkFilename: "[id].[hash:7].css"
     }),
-    new ProgressBarPlugin({
-      format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)'
+    new webpack.DefinePlugin({
+      __ENV__
     }),
   ]
 };
