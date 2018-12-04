@@ -16,8 +16,7 @@ export class RootPage extends React.Component {
           <Link to={"/no-lazy"}>to no lazy page</Link>
         </div>
         <Switch>
-          <Route path={"/no-lazy"} component={NoLazy}/>
-          <LazyRoute path={"/test"} component={"Dashboard/index"}/>
+          <LazyRoute path={"/test"} component={() => import("../Dashboard")}/>
         </Switch>
       </div>
     )
