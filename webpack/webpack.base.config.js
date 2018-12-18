@@ -1,26 +1,8 @@
 const path = require("path");
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const {resolve} = require("./util");
-const argv = require("yargs").argv;
-
-const __ENV__ = {
-  prod: false,
-  test: false,
-  dev: false
-};
-
-
-if (argv.prod) {
-  __ENV__.prod = true;
-} else if (argv.test) {
-  __ENV__.test = true;
-} else {
-  __ENV__.dev = true;
-}
-
-console.log("environment config", __ENV__);
-
+const {detectEnv} = require("./util/detectEnv");
+const {resolvePath} = require("./util/resolvePath");
 
 module.exports = {
   context: path.resolve(__dirname, "../"),
@@ -28,7 +10,7 @@ module.exports = {
     index: "./src/index.js",
   },
   output: {
-    path: resolve("dist"),
+    path: resolvePath("dist"),
     filename: '[name].js',
     chunkFilename: "[name].[hash].js",
   },
@@ -48,7 +30,7 @@ module.exports = {
       {
         test: /\.scss$/,
         use: ['css-hot-loader', MiniCssExtractPlugin.loader, 'css-loader?module', 'postcss-loader', 'sass-loader'],
-        include: [resolve('src')],
+        include: [resolvePath('src')],
         exclude: /node_modules/
       },
       {
@@ -64,7 +46,7 @@ module.exports = {
             ],
           }
         }],
-        include: [resolve('src')],
+        include: [resolvePath('src')],
         exclude: /node_modules/
       },
       {
@@ -76,7 +58,7 @@ module.exports = {
             name: "img/[name].[hash:7].[ext]"
           }
         }],
-        include: [resolve('src')],
+        include: [resolvePath('src')],
         exclude: /node_modules/
       }
     ]
@@ -87,7 +69,7 @@ module.exports = {
       chunkFilename: "[id].[hash:7].css"
     }),
     new webpack.DefinePlugin({
-      __ENV__
-    }),
+      __ENV__: detectEnv()
+    })
   ]
 };

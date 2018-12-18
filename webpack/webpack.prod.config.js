@@ -5,18 +5,17 @@ const merge = require('webpack-merge');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const WebpackParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
-const {resolve} = require("./util");
-
+const {resolvePath} = require("./util/resolvePath");
 module.exports = merge(baseConfig, {
   plugins: [
     new CleanWebpackPlugin('dist', {
-      root: resolve(),
+      root: resolvePath(),
       verbose: true,
       dry: false
     }),
     new BundleAnalyzerPlugin(),
     new HtmlWebpackPlugin({
-      template: resolve('src', 'index.html'),
+      template: resolvePath('src', 'index.html'),
     }),
 
     new OptimizeCSSPlugin(),

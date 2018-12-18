@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "webpack-dev-server --dev --colors --config webpack/webpack.dev.config.js --mode development",
+    "start": "webpack-dev-server --dev --colors --config webpack/webpack.dev.config.js --mode development",
     "test": "webpack --test --progress --color --profile --config webpack/webpack.test.config.js --mode development",
     "prod": "webpack --prod --progress --color --profile --config webpack/webpack.prod.config.js --mode production"
   },
