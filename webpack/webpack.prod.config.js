@@ -8,9 +8,6 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const {resolve} = require("./util");
 
 module.exports = merge(baseConfig, {
-  output: {
-    publicPath: 'http://s1.xmcdn.com/sr012018/the-sound-vote-page/last/dist/'
-  },
   plugins: [
     new CleanWebpackPlugin('dist', {
       root: resolve(),

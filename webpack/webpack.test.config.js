@@ -8,9 +8,6 @@ const {resolve} = require("./util");
 
 
 module.exports = merge(baseConfig, {
-  output: {
-    publicPath: "http://static2.test.ximalaya.com/sr012018/the-sound-vote-page/last/dist/"
-  },
   plugins: [
     new CleanWebpackPlugin('dist', {
       root: resolve(),
