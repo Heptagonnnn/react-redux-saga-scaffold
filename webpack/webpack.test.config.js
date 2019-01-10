@@ -16,7 +16,7 @@ module.exports = merge(baseConfig, {
     }),
     new BundleAnalyzerPlugin(),
     new HtmlWebpackPlugin({
-      template: resolvePath('src', 'index.html'),
+      template: resolvePath('test', 'index.html'),
     }),
 
     new OptimizeCSSPlugin({

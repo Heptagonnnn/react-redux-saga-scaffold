@@ -8,14 +8,17 @@ const proxy = require("./proxy");
 const {resolvePath} = require("./util/resolvePath");
 
 module.exports = merge(baseConfig, {
+  entry: {
+    index: "./test/index.js",
+  },
   devtool: "eval-source-map",
   devServer: {
-    contentBase: './src/',
+    contentBase: './test/',
     historyApiFallback: true,
     inline: true,
     hot: true,
     host: '0.0.0.0',
-    port: 8085,
+    port: 8090,
     disableHostCheck: true,
     proxy: proxy() || {}
   },
@@ -26,7 +29,7 @@ module.exports = merge(baseConfig, {
       dry: false
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(resolvePath('src'), 'index.html')
+      template: path.resolve(resolvePath('test'), 'index.html')
     }),
     new webpack.HotModuleReplacementPlugin(),
   ]

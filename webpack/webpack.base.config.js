@@ -30,7 +30,7 @@ module.exports = {
       {
         test: /\.scss$/,
         use: ['css-hot-loader', MiniCssExtractPlugin.loader, 'css-loader?module', 'postcss-loader', 'sass-loader'],
-        include: [resolvePath('src')],
+        include: [resolvePath('src'), resolvePath('test')],
         exclude: /node_modules/
       },
       {
@@ -46,7 +46,8 @@ module.exports = {
             ],
           }
         }],
-        include: [resolvePath('src')],
+        include: [resolvePath('src'), resolvePath('test')],
+
         exclude: /node_modules/
       },
       {
@@ -58,7 +59,8 @@ module.exports = {
             name: "img/[name].[hash:7].[ext]"
           }
         }],
-        include: [resolvePath('src')],
+        include: [resolvePath('src'), resolvePath('test')],
+
         exclude: /node_modules/
       }
     ]

@@ -14,10 +14,6 @@ module.exports = merge(baseConfig, {
       dry: false
     }),
     new BundleAnalyzerPlugin(),
-    new HtmlWebpackPlugin({
-      template: resolvePath('src', 'index.html'),
-    }),
-
     new OptimizeCSSPlugin(),
     new WebpackParallelUglifyPlugin({
       uglifyJS: {
